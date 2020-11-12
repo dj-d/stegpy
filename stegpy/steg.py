@@ -1,11 +1,9 @@
-#!/usr/bin/env python3
-
-import sys
 import argparse
 import os.path
 from getpass import getpass
 
 from . import lsb
+
 
 def main():
     parser = argparse.ArgumentParser(description='Simple steganography program based on the LSB method.')
@@ -17,7 +15,7 @@ def main():
     args = parser.parse_args()
 
     bits = int(args.bits)
-    
+
     if args.check:
         for arg in args.a + [args.b]:
             if os.path.isfile(arg):
@@ -30,8 +28,10 @@ def main():
 
     if args.a:
         args.a = args.a[0]
+
         if os.path.isfile(args.a):
             filename = args.a
+
             with open(filename, 'rb') as myfile:
                 message = myfile.read()
         else:
@@ -41,16 +41,18 @@ def main():
             while 1:
                 password = getpass('Enter password (will not be echoed):')
                 password_2 = getpass('Verify password (will not be echoed):')
+
                 if password == password_2:
                     break
- 
+
         host.insert_message(message, bits, filename, password)
         host.save()
     else:
-       if args.password:
+        if args.password:
             password = getpass('Enter password (will not be echoed):')
-       host.read_message(password)
 
-if __name__== "__main__":
+        host.read_message(password)
+
+
+if __name__ == "__main__":
     main()
-
